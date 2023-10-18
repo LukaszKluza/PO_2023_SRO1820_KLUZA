@@ -7,9 +7,24 @@ public class World {
         System.out.println("System zakończył działanie");
     }
     public static void run(String[] args){
-        System.out.println("Zwierzak idzie do przody");
-        for(int i = 0; i < args.length; ++i){
-            
+        for(String arg: args){
+            switch (arg){
+                case "f" -> System.out.println("Zwierzak idzie do przodu");
+                case "b" -> System.out.println("Zwierzak idzie do tyłu");
+                case "l" -> System.out.println("Zwierzak idzie w lewo");
+                case "r" -> System.out.println("Zwierzak idzie w prawo");
+            }
+
+            String message = switch (arg){
+                case "f" -> "Zwierzak idzie do przodu";
+                case "b" -> "Zwierzak idzie do tyłu";
+                case "l" -> "Zwierzak idzie w lewo";
+                case "r" -> "Zwierzak idzie w prawo";
+                default -> null;
+            };
+            if(message != null){
+                System.out.println(message);
+            }
         }
     }
 }
