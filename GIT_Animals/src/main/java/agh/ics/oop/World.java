@@ -4,10 +4,11 @@ import agh.ics.oop.model.MoveDirection;
 public class World {
     public static void main(String[] args) {
         System.out.println("System wystartował");
-        run(OptionsParser.OptionsConvert(args));
+        run(OptionsParser.convertOptions(args));
         System.out.println("System zakończył działanie");
     }
     public static void run(MoveDirection[] args){
+        
         for(MoveDirection arg: args){
             switch (arg) {
                 case FORWARD -> System.out.println("Zwierzak idzie do przodu");
