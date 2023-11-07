@@ -1,6 +1,7 @@
 package agh.ics.oop;
 import agh.ics.oop.model.MoveDirection;
 
+
 public class OptionsParser {
     public static MoveDirection[] convertOptions(String[] args){
         MoveDirection[] tempEnum = new MoveDirection[args.length];
