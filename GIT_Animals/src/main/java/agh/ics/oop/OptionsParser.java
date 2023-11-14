@@ -1,11 +1,13 @@
 package agh.ics.oop;
 import agh.ics.oop.model.MoveDirection;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class OptionsParser {
-    public static MoveDirection[] convertOptions(String[] args){
-        MoveDirection[] tempEnum = new MoveDirection[args.length];
-        int counter = 0;
+    public static List<MoveDirection> convertOptions(String[] args){
+        List<MoveDirection> enumArgs = new ArrayList<>();
         for(String arg: args){
             MoveDirection message = switch (arg){
                 case "f" -> MoveDirection.FORWARD;
@@ -15,13 +17,9 @@ public class OptionsParser {
                 default -> null;
             };
             if (message != null) {
-                tempEnum[counter] = message;
-                counter++;
+                enumArgs.add(message);
             }
         }
-        MoveDirection[] enum_args = new MoveDirection[counter];
-
-        System.arraycopy(tempEnum, 0, enum_args, 0, counter);
-        return enum_args;
+        return enumArgs;
     }
 }
