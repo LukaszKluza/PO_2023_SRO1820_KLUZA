@@ -2,6 +2,7 @@ package agh.ics.oop;
 
 import agh.ics.oop.model.MapDirection;
 import agh.ics.oop.model.MoveDirection;
+import agh.ics.oop.model.RectangularMap;
 import agh.ics.oop.model.Vector2d;
 import org.junit.jupiter.api.Test;
 
@@ -13,14 +14,11 @@ class SimulationTest {
     @Test
     void runBorder(){
         List<Vector2d> positions = List.of(new Vector2d(2,2), new Vector2d(3,4));
-        List<MoveDirection> directions = List.of(new MoveDirection[]{
-                MoveDirection.BACKWARD, MoveDirection.FORWARD, MoveDirection.LEFT, MoveDirection.LEFT,
-                MoveDirection.FORWARD,MoveDirection.BACKWARD, MoveDirection.FORWARD, MoveDirection.BACKWARD,
-                MoveDirection.FORWARD, MoveDirection.LEFT, MoveDirection.LEFT,MoveDirection.BACKWARD,
-                MoveDirection.FORWARD, MoveDirection.LEFT, MoveDirection.FORWARD,MoveDirection.BACKWARD
-        });
+        RectangularMap map = new RectangularMap(4,4);
+        String[] input = {"b", "f","l","l","f","b","f","d","b","f","l","l","b","f","x","l","f","b"};
 
-        Simulation simulation = new Simulation(positions, directions);
+        List<MoveDirection> directions = OptionsParser.convertOptions(input);
+        Simulation simulation = new Simulation(positions, directions, map);
         simulation.run();
 
         assertEquals(new Vector2d(0,0),simulation.getAnimalsList().get(0).getAnimalVector());
@@ -29,12 +27,11 @@ class SimulationTest {
     @Test
     void runOrientation(){
         List<Vector2d> positions = List.of(new Vector2d(2,2), new Vector2d(3,4));
-        List<MoveDirection> directions = List.of(new MoveDirection[]{
-                MoveDirection.RIGHT, MoveDirection.LEFT, MoveDirection.RIGHT, MoveDirection.LEFT,
-                MoveDirection.LEFT, MoveDirection.LEFT,MoveDirection.RIGHT, MoveDirection.LEFT
-        });
+        RectangularMap map = new RectangularMap(4,4);
+        String[] input = {"r", "l","r","l","t","x","l","l","r","l"};
 
-        Simulation simulation = new Simulation(positions, directions);
+        List<MoveDirection> directions = OptionsParser.convertOptions(input);
+        Simulation simulation = new Simulation(positions, directions, map);
         simulation.run();
 
         assertEquals(MapDirection.SOUTH,simulation.getAnimalsList().get(0).getAnimalDirection());
@@ -43,9 +40,11 @@ class SimulationTest {
     @Test
     void runComplex() {
         List<Vector2d> positions = List.of(new Vector2d(2,2), new Vector2d(3,4));
-        List<MoveDirection> directions = List.of(new MoveDirection[]{MoveDirection.RIGHT, MoveDirection.LEFT, MoveDirection.FORWARD, MoveDirection.RIGHT,MoveDirection.RIGHT,MoveDirection.LEFT});
+        RectangularMap map = new RectangularMap(4,4);
+        String[] input = {"r", "l","f","r","t","x","r","l","d","c"};
 
-        Simulation simulation = new Simulation(positions, directions);
+        List<MoveDirection> directions = OptionsParser.convertOptions(input);
+        Simulation simulation = new Simulation(positions, directions, map);
         simulation.run();
 
         assertEquals(new Vector2d(3,2),simulation.getAnimalsList().get(0).getAnimalVector());

@@ -27,8 +27,8 @@ class AnimalTest {
         Animal animal1 =new Animal();
         Animal animal2 =new Animal(new Vector2d(0,0));
 
-        assertEquals("Direction: %s, position: (2,2)".formatted(MapDirection.NORTH.toString()), animal1.toString());
-        assertEquals("Direction: %s, position: (0,0)".formatted(MapDirection.NORTH.toString()), animal2.toString());
+        assertEquals("N", animal1.toString());
+        assertEquals("N", animal2.toString());
     }
 
     @Test
@@ -39,19 +39,20 @@ class AnimalTest {
         assertFalse(animal1.isAt(new Vector2d(0,0)));
     }
 
+    MoveValidator validator = new RectangularMap(4,4);
     @Test
     void moveBorder(){
         Animal animal1 =new Animal(new Vector2d(0,0));
 
-        animal1.move(MoveDirection.BACKWARD);
+        animal1.move(MoveDirection.BACKWARD,validator);
 
         assertEquals(new Vector2d(0,0), animal1.getAnimalVector());
     }
-
+    @Test
     void moveDirection(){
         Animal animal1 =new Animal();
 
-        animal1.move(MoveDirection.LEFT);
+        animal1.move(MoveDirection.LEFT,validator);
 
         assertEquals(MapDirection.WEST, animal1.getAnimalDirection());
     }
@@ -60,13 +61,13 @@ class AnimalTest {
         Animal animal1 =new Animal();
         Animal animal2 =new Animal(new Vector2d(2,3));
 
-        animal1.move(MoveDirection.LEFT);
-        animal1.move(MoveDirection.LEFT);
-        animal1.move(MoveDirection.BACKWARD);
+        animal1.move(MoveDirection.LEFT,validator);
+        animal1.move(MoveDirection.LEFT,validator);
+        animal1.move(MoveDirection.BACKWARD,validator);
 
-        animal2.move(MoveDirection.RIGHT);
-        animal2.move(MoveDirection.BACKWARD);
-        animal2.move(MoveDirection.BACKWARD);
+        animal2.move(MoveDirection.RIGHT,validator);
+        animal2.move(MoveDirection.BACKWARD,validator);
+        animal2.move(MoveDirection.BACKWARD,validator);
 
         assertEquals(MapDirection.SOUTH, animal1.getAnimalDirection());
         assertEquals(MapDirection.EAST, animal2.getAnimalDirection());
