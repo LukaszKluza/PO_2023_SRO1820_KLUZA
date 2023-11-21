@@ -3,6 +3,7 @@ import agh.ics.oop.model.*;
 
 
 import java.util.List;
+import java.util.Vector;
 
 public class World {
     public static void main(String[] args) {
@@ -10,7 +11,7 @@ public class World {
         System.out.println("Start");
         List<MoveDirection> directions = OptionsParser.convertOptions(args);
         List<Vector2d> positions = List.of(new Vector2d(2,2), new Vector2d(3,4));
-        RectangularMap map = new RectangularMap(4,4);
+        WorldMap<Animal, Vector2d> map = new RectangularMap(4,4);
         Simulation simulation = new Simulation(positions, directions, map);
         simulation.run();
         System.out.println("Stop");

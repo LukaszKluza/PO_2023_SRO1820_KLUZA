@@ -12,7 +12,7 @@ class RectangularMapTest {
 
     @Test
     void canMoveTo() {
-        WorldMap map = new RectangularMap(4,4);
+        WorldMap<Animal, Vector2d> map = new RectangularMap(4,4);
         Animal animal1 = new Animal(new Vector2d(2,3));
 
         map.place(animal1);
@@ -25,7 +25,7 @@ class RectangularMapTest {
 
     @Test
     void placeAndObjectAT() {
-        WorldMap map = new RectangularMap(4,4);
+        WorldMap<Animal, Vector2d> map = new RectangularMap(4,4);
         Animal animal1 = new Animal(new Vector2d(2,3));
 
         map.place(animal1);
@@ -63,7 +63,7 @@ class RectangularMapTest {
 
     @Test
     void isOccupied() {
-        WorldMap map = new RectangularMap(4,4);
+        WorldMap<Animal, Vector2d> map = new RectangularMap(4,4);
         Animal animal1 = new Animal(new Vector2d(2,3));
 
         map.place(animal1);

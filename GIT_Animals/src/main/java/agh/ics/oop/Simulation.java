@@ -14,7 +14,7 @@ public class Simulation {
     private final List<MoveDirection> animalsMovements;
     private final List<Animal> animalsList = new ArrayList<>();
 
-    public Simulation(List<Vector2d> animalsVector, List<MoveDirection> animalsDirections, WorldMap map) {
+    public Simulation(List<Vector2d> animalsVector, List<MoveDirection> animalsDirections, WorldMap<Animal, Vector2d> map) {
         this.map = map;
         this.animalsMovements = animalsDirections;
         for (Vector2d vector2d : animalsVector) {
