@@ -18,8 +18,8 @@ class AnimalTest {
         Animal animal1 =new Animal();
         Animal animal2 =new Animal(new Vector2d(0,0));
 
-        assertEquals(new Vector2d(2,2), animal1.getAnimalVector());
-        assertEquals(new Vector2d(0,0), animal2.getAnimalVector());
+        assertEquals(new Vector2d(2,2), animal1.getPosition());
+        assertEquals(new Vector2d(0,0), animal2.getPosition());
     }
 
     @Test
@@ -46,7 +46,7 @@ class AnimalTest {
 
         animal1.move(MoveDirection.BACKWARD,validator);
 
-        assertEquals(new Vector2d(0,0), animal1.getAnimalVector());
+        assertEquals(new Vector2d(0,0), animal1.getPosition());
     }
     @Test
     void moveDirection(){
@@ -71,7 +71,7 @@ class AnimalTest {
 
         assertEquals(MapDirection.SOUTH, animal1.getAnimalDirection());
         assertEquals(MapDirection.EAST, animal2.getAnimalDirection());
-        assertEquals(new Vector2d(2,3), animal1.getAnimalVector());
-        assertEquals(new Vector2d(0,3), animal2.getAnimalVector());
+        assertEquals(new Vector2d(2,3), animal1.getPosition());
+        assertEquals(new Vector2d(0,3), animal2.getPosition());
     }
 }

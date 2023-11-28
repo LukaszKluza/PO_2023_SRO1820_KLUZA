@@ -4,11 +4,11 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class RectangularMapTest {
+class GrassFieldTest {
 
     @Test
     void canMoveTo() {
-        WorldMap map = new RectangularMap(4,4);
+        WorldMap map = new GrassField(10);
         Animal animal1 = new Animal(new Vector2d(2,3));
 
         map.place(animal1);
@@ -21,17 +21,16 @@ class RectangularMapTest {
 
     @Test
     void placeAndObjectAT() {
-        WorldMap map = new RectangularMap(4,4);
+        WorldMap map = new GrassField(10);
         Animal animal1 = new Animal(new Vector2d(2,3));
 
         map.place(animal1);
 
         assertEquals(animal1,map.objectAt(new Vector2d(2,3)));
     }
-
     @Test
     void move() {
-        RectangularMap map = new RectangularMap(4, 4);
+        WorldMap map = new GrassField(10);
         Animal animal1 = new Animal(new Vector2d(2,3));
         Animal animal2 = new Animal(new Vector2d(2,1));
         Animal animal3 = new Animal(new Vector2d(0,0));
@@ -48,25 +47,25 @@ class RectangularMapTest {
         map.move(animal1, MoveDirection.FORWARD);
         map.move(animal2, MoveDirection.BACKWARD);
         map.move(animal4, MoveDirection.BACKWARD);
-        map.move(animal3, MoveDirection.RIGHT);
+        map.move(animal3, MoveDirection.LEFT);
         map.move(animal3, MoveDirection.FORWARD);
+        map.move(animal4, MoveDirection.BACKWARD);
 
-        assertEquals(animal1,map.objectAt(new Vector2d(2,4)));
+
+        assertEquals(animal1,map.objectAt(new Vector2d(2,5)));
         assertEquals(animal2,map.objectAt(new Vector2d(3,1)));
-        assertEquals(animal3,map.objectAt(new Vector2d(1,0)));
-        assertEquals(animal4,map.objectAt(new Vector2d(4,0)));
+        assertEquals(animal3,map.objectAt(new Vector2d(-1,0)));
+        assertEquals(animal4,map.objectAt(new Vector2d(4,-1)));
     }
 
     @Test
     void isOccupied() {
-        WorldMap map = new RectangularMap(4,4);
+        WorldMap map = new GrassField(10);
         Animal animal1 = new Animal(new Vector2d(2,3));
 
         map.place(animal1);
         boolean case1 = map.isOccupied(new Vector2d(2,3));
-        boolean case2 = map.isOccupied(new Vector2d(2,2));
 
         assertTrue(case1);
-        assertFalse(case2);
     }
 }

@@ -1,6 +1,6 @@
 package agh.ics.oop.model;
 
-public class Animal {
+public class Animal implements WorldElement {
     private MapDirection animalDirection;
     private Vector2d animalVector;
 
@@ -16,7 +16,8 @@ public class Animal {
     public MapDirection getAnimalDirection() {
         return animalDirection;
     }
-    public Vector2d getAnimalVector() {
+    @Override
+    public Vector2d getPosition() {
         return animalVector;
     }
 
@@ -34,7 +35,7 @@ public class Animal {
         return this.animalVector.equals(position);
     }
 
-    public void move(MoveDirection direction, MoveValidator validator){
+    void move(MoveDirection direction, MoveValidator validator){
         switch (direction){
             case RIGHT -> animalDirection = animalDirection.next();
             case LEFT -> animalDirection = animalDirection.previous();
