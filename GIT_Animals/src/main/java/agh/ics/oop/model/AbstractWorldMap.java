@@ -2,26 +2,24 @@ package agh.ics.oop.model;
 
 import agh.ics.oop.model.util.MapVisualizer;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 abstract class AbstractWorldMap implements WorldMap{
-    private final static int MIN_VALUE = Integer.MIN_VALUE;
-    private final static int MAX_VALUE = Integer.MAX_VALUE;
-    protected Vector2d lowerLeft = new Vector2d(MAX_VALUE, MAX_VALUE);
-    protected Vector2d upperRight = new Vector2d(MIN_VALUE, MIN_VALUE);
+    private static final List<MapChangeListener> observers = new ArrayList<>();
     protected final Map<Vector2d, Animal> mapAnimals = new HashMap<>();
     protected MapVisualizer mapVisualizer;
     public abstract boolean canMoveTo(Vector2d position);
+    public abstract Boundary getCurrentBounds();
     @Override
-    public boolean place(Animal element) {
+    public void place(Animal element) throws PositionAlreadyOccupiedException  {
         Vector2d position = element.getPosition();
         if(canMoveTo(position)){
             mapAnimals.put(element.getPosition(), element);
-            return true;
+            mapChanged("Place animal, position: " + position);
         }
-        return false;
+        else {
+            throw new PositionAlreadyOccupiedException(position);
+        }
     }
     @Override
     public void move(Animal animal, MoveDirection direction) {
@@ -30,8 +28,8 @@ abstract class AbstractWorldMap implements WorldMap{
             animal.move(direction,this);
             Vector2d newPosition = animal.getPosition();
             mapAnimals.remove(oldPosition);
-            System.out.println(animal+newPosition.toString());
             mapAnimals.put(newPosition, animal);
+            mapChanged("Move animal from: " + oldPosition + " to: " + newPosition + " direction: "+ animal.getAnimalDirection());
         }
     }
 
@@ -41,11 +39,25 @@ abstract class AbstractWorldMap implements WorldMap{
     }
     @Override
     public String toString() {
-        return this.mapVisualizer.draw(lowerLeft, upperRight);
+        Boundary bounds = getCurrentBounds();
+        return this.mapVisualizer.draw(bounds.lowerLeft(), bounds.upperRight());
     }
-
     @Override
     public Map<Vector2d, WorldElement> getElements() {
         return Collections.unmodifiableMap(mapAnimals);
+    }
+
+    public static void registerObserver(MapChangeListener observer) {
+        observers.add(observer);
+    }
+
+    public void unregisterObserver(MapChangeListener observer) {
+        observers.remove(observer);
+    }
+
+    protected void mapChanged(String message) {
+        for (MapChangeListener observer : observers) {
+            observer.mapChanged(this, message);
+        }
     }
 }

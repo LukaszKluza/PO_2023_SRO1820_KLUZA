@@ -1,5 +1,6 @@
 package agh.ics.oop.model;
 
+import jdk.jshell.spi.ExecutionControl;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -11,7 +12,11 @@ class GrassFieldTest {
         WorldMap map = new GrassField(10);
         Animal animal1 = new Animal(new Vector2d(2,3));
 
-        map.place(animal1);
+        try{
+            map.place(animal1);
+        } catch (PositionAlreadyOccupiedException e) {
+            e.printStackTrace();
+        }
         boolean case1 = map.canMoveTo(new Vector2d(2,3));
         boolean case2 = map.canMoveTo(new Vector2d(2,2));
 
@@ -24,7 +29,11 @@ class GrassFieldTest {
         WorldMap map = new GrassField(10);
         Animal animal1 = new Animal(new Vector2d(2,3));
 
-        map.place(animal1);
+        try{
+            map.place(animal1);
+        } catch (PositionAlreadyOccupiedException e) {
+            e.printStackTrace();
+        }
 
         assertEquals(animal1,map.objectAt(new Vector2d(2,3)));
     }
@@ -36,10 +45,15 @@ class GrassFieldTest {
         Animal animal3 = new Animal(new Vector2d(0,0));
         Animal animal4 = new Animal(new Vector2d(4,1));
 
-        map.place(animal1);
-        map.place(animal2);
-        map.place(animal3);
-        map.place(animal4);
+        try{
+            map.place(animal1);
+            map.place(animal2);
+            map.place(animal3);
+            map.place(animal4);
+        } catch (PositionAlreadyOccupiedException e) {
+            e.printStackTrace();
+        }
+
 
         map.move(animal1, MoveDirection.FORWARD);
         map.move(animal2, MoveDirection.LEFT);
@@ -63,9 +77,13 @@ class GrassFieldTest {
         WorldMap map = new GrassField(10);
         Animal animal1 = new Animal(new Vector2d(2,3));
 
-        map.place(animal1);
-        boolean case1 = map.isOccupied(new Vector2d(2,3));
+        try{
+            map.place(animal1);
+        } catch (PositionAlreadyOccupiedException e) {
+            e.printStackTrace();
+        }
 
+        boolean case1 = map.isOccupied(new Vector2d(2,3));
         assertTrue(case1);
     }
 }

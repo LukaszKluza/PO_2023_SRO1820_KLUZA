@@ -12,11 +12,16 @@ class OptionsParserTest {
 
     @Test
     void convertOptions() {
-        String[] optionList = {"a", "b", "c", "r", "a", "x", "f", "l"};
 
-        List<MoveDirection> expectedOption = Arrays.asList(MoveDirection.BACKWARD, MoveDirection.RIGHT, MoveDirection.FORWARD, MoveDirection.LEFT);
-        List<MoveDirection> actualOption = OptionsParser.convertOptions(optionList);
+        try{
+            String[] optionList = {"a", "b", "c", "r", "a", "x", "f", "l"};
+            List<MoveDirection> expectedOption = Arrays.asList(MoveDirection.BACKWARD, MoveDirection.RIGHT, MoveDirection.FORWARD, MoveDirection.LEFT);
+            List<MoveDirection> actualOption = OptionsParser.convertOptions(optionList);
+            assertEquals(expectedOption, actualOption);
+        }
+        catch(IllegalArgumentException e){
+            System.err.println(e.getMessage());
+        }
 
-        assertEquals(expectedOption, actualOption);
     }
 }

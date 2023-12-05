@@ -9,39 +9,21 @@ public class GrassField extends AbstractWorldMap{
 
     public GrassField(int grassCount) {
         this.mapVisualizer = new MapVisualizer(this);
-        int maxSide = (int) Math.sqrt(grassCount*10);
+        GrassGenerate(grassCount);
+    }
+
+    private void GrassGenerate(int grassCount) {
+        int maxSide = (int) Math.sqrt(grassCount *10);
         RandomPositionGenerator randomPositionGenerator = new RandomPositionGenerator(maxSide, maxSide, grassCount);
         for(Vector2d grassPosition : randomPositionGenerator) {
             mapGrass.put(grassPosition, new Grass(grassPosition));
-            edgeUpdate(grassPosition);
         }
-    }
-    private void edgeUpdate(Vector2d position){
-        lowerLeft = lowerLeft.lowerLeft(position);
-        upperRight = upperRight.upperRight(position);
     }
 
     @Override
     public boolean canMoveTo(Vector2d position) {
-        return objectAt(position) == null || (mapGrass.get(position) != null && mapAnimals.get(position) == null);
+        return objectAt(position) == null || (mapGrass.containsKey(position) && !mapAnimals.containsKey(position));
     }
-
-    @Override
-    public boolean place(Animal element) {
-        boolean res = super.place(element);
-        if(res){
-            edgeUpdate(element.getPosition());
-        }
-        return res;
-    }
-
-    @Override
-    public void move(Animal animal, MoveDirection direction) {
-        super.move(animal,direction);
-        Vector2d newPosition = animal.getPosition();
-        edgeUpdate(newPosition);
-    }
-
     @Override
     public WorldElement objectAt(Vector2d position) {
         if(mapAnimals.get(position) != null){
@@ -50,14 +32,21 @@ public class GrassField extends AbstractWorldMap{
          return mapGrass.get(position);
     }
     @Override
-    public String toString() {
-        return super.toString();
-    }
-    @Override
     public Map<Vector2d, WorldElement> getElements() {
         Map<Vector2d, WorldElement> combinedMap = new HashMap<>(super.getElements());
         combinedMap.putAll(mapGrass);
         return Collections.unmodifiableMap(combinedMap);
+    }
+    @Override
+    public Boundary getCurrentBounds() {
+        Map<Vector2d, WorldElement> elements = getElements();
+        Vector2d lowerLeft = new Vector2d(Integer.MAX_VALUE, Integer.MAX_VALUE);
+        Vector2d upperRight = new Vector2d(Integer.MIN_VALUE, Integer.MIN_VALUE);
+        for(WorldElement element : elements.values()){
+            lowerLeft = lowerLeft.lowerLeft(element.getPosition());
+            upperRight = upperRight.upperRight(element.getPosition());
+        }
+        return new Boundary(lowerLeft, upperRight);
     }
 
 }
