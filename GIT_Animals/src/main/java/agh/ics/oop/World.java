@@ -8,17 +8,38 @@ public class World {
     public static void main(String[] args) {
 
         System.out.println("Start");
+//        try{
+//            List<MoveDirection> directions = OptionsParser.convertOptions(args);
+//            List<Vector2d> positions1 = List.of(new Vector2d(2,2), new Vector2d(3,4));
+//            List<Vector2d> positions2 = List.of(new Vector2d(0,4), new Vector2d(1,4));
+//            WorldMap map1 = new GrassField(10,1);
+//            WorldMap map2 = new RectangularMap(5,5,2);
+//            ConsoleMapDisplay consoleMapDisplay = new ConsoleMapDisplay();
+//            map1.registerObserver(consoleMapDisplay);
+//            map2.registerObserver(consoleMapDisplay);
+//            List<Simulation> simulations = List.of(new Simulation(positions1, directions, map1), new Simulation(positions2, directions, map2));
+//            SimulationEngine simulationEngine = new SimulationEngine(simulations);
+//            simulationEngine.runAsync();
+//        }
+//        catch(IllegalArgumentException e){
+//            e.printStackTrace();
+//        }
+//        catch (InterruptedException e) {
+//            throw new RuntimeException(e);
+//        }
         try{
             List<MoveDirection> directions = OptionsParser.convertOptions(args);
             List<Vector2d> positions = List.of(new Vector2d(2,2), new Vector2d(3,4));
-            GrassField map = new GrassField(10);
             ConsoleMapDisplay consoleMapDisplay = new ConsoleMapDisplay();
-            GrassField.registerObserver(consoleMapDisplay);
-            Simulation simulation = new Simulation(positions, directions, map);
-            simulation.run();
+            for(int i =0; i<1000; ++i){
+                WorldMap map = new GrassField(10,i);
+                Simulation simulation = new Simulation(positions,directions,map);
+                map.registerObserver(consoleMapDisplay);
+                SimulationEngine simulationEngine = new SimulationEngine(List.of(simulation));
+                simulationEngine.runAsyncInThreadPool();
+            }
         }
         catch(IllegalArgumentException e){
-//            System.err.println(e.getMessage());
             e.printStackTrace();
         }
         System.out.println("Stop");

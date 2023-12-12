@@ -9,7 +9,7 @@ class GrassFieldTest {
 
     @Test
     void canMoveTo() {
-        WorldMap map = new GrassField(10);
+        WorldMap map = new GrassField(10,1);
         Animal animal1 = new Animal(new Vector2d(2,3));
 
         try{
@@ -26,7 +26,7 @@ class GrassFieldTest {
 
     @Test
     void placeAndObjectAT() {
-        WorldMap map = new GrassField(10);
+        WorldMap map = new GrassField(10,1);
         Animal animal1 = new Animal(new Vector2d(2,3));
 
         try{
@@ -39,7 +39,7 @@ class GrassFieldTest {
     }
     @Test
     void move() {
-        WorldMap map = new GrassField(10);
+        WorldMap map = new GrassField(10,1);
         Animal animal1 = new Animal(new Vector2d(2,3));
         Animal animal2 = new Animal(new Vector2d(2,1));
         Animal animal3 = new Animal(new Vector2d(0,0));
@@ -74,7 +74,7 @@ class GrassFieldTest {
 
     @Test
     void isOccupied() {
-        WorldMap map = new GrassField(10);
+        WorldMap map = new GrassField(10,1);
         Animal animal1 = new Animal(new Vector2d(2,3));
 
         try{

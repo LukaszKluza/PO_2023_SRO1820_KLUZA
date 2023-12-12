@@ -33,7 +33,7 @@ public interface WorldMap extends MoveValidator {
      * @param position Position to check.
      * @return True if the position is occupied.
      */
-    default boolean isOccupied(Vector2d position){
+    default boolean isOccupied(Vector2d position) {
         return objectAt(position) != null;
     }
 
@@ -45,7 +45,11 @@ public interface WorldMap extends MoveValidator {
      */
     WorldElement objectAt(Vector2d position);
 
-//    String toString(Boundary currentBounds);
-
     Map<Vector2d, WorldElement> getElements();
+
+    void registerObserver(MapChangeListener observer);
+
+    void unregisterObserver(MapChangeListener observer);
+
+    int getId();
 }
