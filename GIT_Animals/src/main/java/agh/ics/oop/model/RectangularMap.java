@@ -2,9 +2,9 @@ package agh.ics.oop.model;
 
 import agh.ics.oop.model.util.MapVisualizer;
 
-import java.util.Map;
-
 public class RectangularMap extends AbstractWorldMap{
+    protected Vector2d lowerLeft;
+    protected Vector2d upperRight;
     public RectangularMap(int width, int height) {
         upperRight = new Vector2d(width, height);
         lowerLeft = new Vector2d(0,0);
@@ -17,23 +17,7 @@ public class RectangularMap extends AbstractWorldMap{
     }
 
     @Override
-    public boolean place(Animal element) {
-        return super.place(element);
+    public Boundary getCurrentBounds() {
+        return new Boundary(lowerLeft, upperRight);
     }
-
-    @Override
-    public void move(Animal animal, MoveDirection direction) {
-        super.move(animal, direction);
-    }
-
-    @Override
-    public WorldElement objectAt(Vector2d position) {
-        return super.objectAt(position);
-    }
-
-    @Override
-    public Map<Vector2d, WorldElement> getElements() {
-        return super.getElements();
-    }
-
 }
