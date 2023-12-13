@@ -11,7 +11,7 @@ class SimulationTest {
     @Test
     void runBorder(){
         List<Vector2d> positions = List.of(new Vector2d(2,2), new Vector2d(3,4));
-        WorldMap map = new GrassField(10);
+        WorldMap map = new GrassField(10,1);
         String[] input = {"b","f","l","l","f","b","f","b","f","l","l","b","f","l","f","b"};
 
         try{
@@ -28,7 +28,7 @@ class SimulationTest {
     @Test
     void runOrientation(){
         List<Vector2d> positions = List.of(new Vector2d(2,2), new Vector2d(3,4));
-        WorldMap map = new GrassField(10);
+        WorldMap map = new GrassField(10,1);
         String[] input = {"r","l","r","l","l","l","r","l"};
 
         try {
@@ -45,7 +45,7 @@ class SimulationTest {
     @Test
     void runComplex() {
         List<Vector2d> positions = List.of(new Vector2d(2,2), new Vector2d(3,4));
-        WorldMap map = new GrassField(10);
+        WorldMap map = new GrassField(10,1);
         String[] input = {"r","l","f","r","r","f"};
 
         try{

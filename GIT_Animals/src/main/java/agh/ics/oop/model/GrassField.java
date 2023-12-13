@@ -7,8 +7,9 @@ import java.util.*;
 public class GrassField extends AbstractWorldMap{
     private final Map<Vector2d, Grass> mapGrass = new HashMap<>();
 
-    public GrassField(int grassCount) {
+    public GrassField(int grassCount, int Id) {
         this.mapVisualizer = new MapVisualizer(this);
+        this.Id =Id;
         GrassGenerate(grassCount);
     }
 

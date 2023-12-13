@@ -5,9 +5,10 @@ import agh.ics.oop.model.util.MapVisualizer;
 import java.util.*;
 
 abstract class AbstractWorldMap implements WorldMap{
-    private static final List<MapChangeListener> observers = new ArrayList<>();
+    private final List<MapChangeListener> observers = new ArrayList<>();
     protected final Map<Vector2d, Animal> mapAnimals = new HashMap<>();
     protected MapVisualizer mapVisualizer;
+    public int Id;
     public abstract boolean canMoveTo(Vector2d position);
     public abstract Boundary getCurrentBounds();
     @Override
@@ -47,11 +48,15 @@ abstract class AbstractWorldMap implements WorldMap{
         return Collections.unmodifiableMap(mapAnimals);
     }
 
-    public static void registerObserver(MapChangeListener observer) {
-        observers.add(observer);
+    @Override
+    public int getId() {
+        return Id;
     }
 
-    public void unregisterObserver(MapChangeListener observer) {
+    public void registerObserver(MapChangeListener observer) {
+        observers.add(observer);
+    }
+        public void unregisterObserver(MapChangeListener observer) {
         observers.remove(observer);
     }
 

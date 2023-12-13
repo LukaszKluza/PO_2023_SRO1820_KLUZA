@@ -39,7 +39,7 @@ class AnimalTest {
         assertFalse(animal1.isAt(new Vector2d(0,0)));
     }
 
-    MoveValidator validator = new RectangularMap(4,4);
+    MoveValidator validator = new RectangularMap(4,4,1);
     @Test
     void moveBorder(){
         Animal animal1 =new Animal(new Vector2d(0,0));

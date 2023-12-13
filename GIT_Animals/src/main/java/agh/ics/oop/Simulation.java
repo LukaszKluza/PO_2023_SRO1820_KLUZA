@@ -6,7 +6,7 @@ import java.util.Collections;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Simulation {
+public class Simulation implements Runnable{
     private final WorldMap map;
     private final List<MoveDirection> animalsMovements;
     private final List<Animal> animalsList = new ArrayList<>();
@@ -20,12 +20,12 @@ public class Simulation {
                 map.place(animal);
                 animalsList.add(animal);
             } catch (PositionAlreadyOccupiedException e) {
-//                System.err.println(e.getMessage());
                 e.printStackTrace();
             }
         }
     }
 
+    @Override
     public void run(){
         int animalListSize = animalsList.size();
         for(int i=0; i<animalsMovements.size(); ++i){
