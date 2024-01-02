@@ -2,6 +2,7 @@ package agh.ics.oop;
 import agh.ics.oop.model.*;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class World {
@@ -19,7 +20,7 @@ public class World {
 //            map2.registerObserver(consoleMapDisplay);
 //            List<Simulation> simulations = List.of(new Simulation(positions1, directions, map1), new Simulation(positions2, directions, map2));
 //            SimulationEngine simulationEngine = new SimulationEngine(simulations);
-//            simulationEngine.runAsync();
+//            simulationEngine.runAsyncInThreadPool();
 //        }
 //        catch(IllegalArgumentException e){
 //            e.printStackTrace();
@@ -28,16 +29,18 @@ public class World {
 //            throw new RuntimeException(e);
 //        }
         try{
+            List<Simulation> simulations = new ArrayList<>();
             List<MoveDirection> directions = OptionsParser.convertOptions(args);
             List<Vector2d> positions = List.of(new Vector2d(2,2), new Vector2d(3,4));
             ConsoleMapDisplay consoleMapDisplay = new ConsoleMapDisplay();
             for(int i =0; i<1000; ++i){
                 WorldMap map = new GrassField(10,i);
-                Simulation simulation = new Simulation(positions,directions,map);
+                simulations.add(new Simulation(positions,directions,map));
                 map.registerObserver(consoleMapDisplay);
-                SimulationEngine simulationEngine = new SimulationEngine(List.of(simulation));
-                simulationEngine.runAsyncInThreadPool();
             }
+            SimulationEngine simulationEngine = new SimulationEngine(simulations);
+            simulationEngine.runAsyncInThreadPool();
+            simulationEngine.awaitSimulationsEnd();
         }
         catch(IllegalArgumentException e){
             e.printStackTrace();
