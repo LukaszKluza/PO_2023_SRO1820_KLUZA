@@ -30,18 +30,15 @@ public class SimulationEngine {
             simulationsThread.add(simulationThread);
             simulationThread.start();
         }
-        awaitSimulationsEnd();
     }
-//Lepsza jest pula wątków poniewasz pozwala kontrolować ilość wątków w puli, co pomaga zoptymalizować wykorzystanie
-// zasobów i daje nam to więszką kontrolę nad tym cos się dzeje
     public void runAsyncInThreadPool() {
         for (Simulation simulation : simulations) {
             threadPool.submit(simulation);
         }
-        awaitSimulationsEnd();
+//        awaitSimulationsEnd();
     }
 
-    private void awaitSimulationsEnd(){
+    public void awaitSimulationsEnd(){
         try {
             for (Thread simulationThread : simulationsThread) {
                 simulationThread.join();

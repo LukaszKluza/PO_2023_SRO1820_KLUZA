@@ -1,5 +1,7 @@
 package agh.ics.oop.model;
 
+import javafx.scene.image.Image;
+
 public class Animal implements WorldElement {
     private MapDirection animalDirection;
     private Vector2d animalVector;
@@ -29,6 +31,17 @@ public class Animal implements WorldElement {
             case NORTH -> "N";
             case SOUTH -> "S";
             };
+    }
+
+    @Override
+    public Image toImage() {
+        String path = switch (animalDirection){
+            case EAST -> "C:\\Users\\Lenovo\\Desktop\\PO\\PO_2023_SRO1820_KLUZA\\GIT_Animals\\images\\east.png";
+            case WEST -> "C:\\Users\\Lenovo\\Desktop\\PO\\PO_2023_SRO1820_KLUZA\\GIT_Animals\\images\\west.png";
+            case NORTH -> "C:\\Users\\Lenovo\\Desktop\\PO\\PO_2023_SRO1820_KLUZA\\GIT_Animals\\images\\north.png";
+            case SOUTH -> "C:\\Users\\Lenovo\\Desktop\\PO\\PO_2023_SRO1820_KLUZA\\GIT_Animals\\images\\south.png";
+        };
+        return new Image(path);
     }
 
     public boolean isAt(Vector2d position){

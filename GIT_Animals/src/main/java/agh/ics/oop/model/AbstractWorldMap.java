@@ -8,9 +8,13 @@ abstract class AbstractWorldMap implements WorldMap{
     private final List<MapChangeListener> observers = new ArrayList<>();
     protected final Map<Vector2d, Animal> mapAnimals = new HashMap<>();
     protected MapVisualizer mapVisualizer;
-    public int Id;
+    private final int Id;
+
+    AbstractWorldMap(int id) {
+        Id = id;
+    }
+
     public abstract boolean canMoveTo(Vector2d position);
-    public abstract Boundary getCurrentBounds();
     @Override
     public void place(Animal element) throws PositionAlreadyOccupiedException  {
         Vector2d position = element.getPosition();
@@ -56,7 +60,7 @@ abstract class AbstractWorldMap implements WorldMap{
     public void registerObserver(MapChangeListener observer) {
         observers.add(observer);
     }
-        public void unregisterObserver(MapChangeListener observer) {
+    public void unregisterObserver(MapChangeListener observer) {
         observers.remove(observer);
     }
 
