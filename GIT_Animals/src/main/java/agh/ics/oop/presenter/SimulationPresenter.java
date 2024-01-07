@@ -33,10 +33,11 @@ public class SimulationPresenter implements MapChangeListener {
     private TextField textField;
     @FXML
     private GridPane mapGrid;
-    WorldMap worldMap;
+    private WorldMap worldMap;
 
     public void setWorldMap(WorldMap worldMap) {
         this.worldMap = worldMap;
+        worldMap.registerObserver(this);
     }
     private void drawMap(WorldMap worldMap){
         clearGrid();
@@ -128,7 +129,7 @@ public class SimulationPresenter implements MapChangeListener {
             List<Vector2d> positions = List.of(new Vector2d(2, 2), new Vector2d(3, 4));
             WorldMap map = new GrassField(10, simulationID);
             simulationPresenter.setWorldMap(map);
-            map.registerObserver(simulationPresenter);
+//            map.registerObserver(simulationPresenter);
             Simulation simulation = new Simulation(positions, getOptions(), map);
             List<Simulation> simulations = List.of(simulation);
 
