@@ -3,6 +3,8 @@ package agh.ics.oop.model;
 import agh.ics.oop.model.util.MapVisualizer;
 
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class GrassField extends AbstractWorldMap{
     private final Map<Vector2d, Grass> mapGrass = new HashMap<>();
@@ -23,29 +25,31 @@ public class GrassField extends AbstractWorldMap{
 
     @Override
     public boolean canMoveTo(Vector2d position) {
-        return objectAt(position) == null || (mapGrass.containsKey(position) && !mapAnimals.containsKey(position));
+        return objectAt(position).isEmpty() || (mapGrass.containsKey(position) && !mapAnimals.containsKey(position));
     }
     @Override
-    public WorldElement objectAt(Vector2d position) {
-        if(mapAnimals.get(position) != null){
-            return mapAnimals.get(position);
+    public Optional<WorldElement> objectAt(Vector2d position) {
+        if(mapAnimals.containsKey(position)){
+            return Optional.ofNullable(mapAnimals.get(position));
         }
-         return mapGrass.get(position);
+         return Optional.ofNullable(mapGrass.get(position));
     }
     @Override
-    public Map<Vector2d, WorldElement> getElements() {
-        Map<Vector2d, WorldElement> combinedMap = new HashMap<>(super.getElements());
-        combinedMap.putAll(mapGrass);
-        return Collections.unmodifiableMap(combinedMap);
+    public Map<WorldElement, Vector2d> getElements() {
+        Map<WorldElement, Vector2d> swappedMapGrass  =  mapGrass.entrySet().stream()
+                .collect(Collectors.toMap(Map.Entry::getValue, Map.Entry::getKey));
+        return Stream.concat(super.getElements().entrySet().stream(), swappedMapGrass.entrySet().stream())
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
+
     @Override
     public Boundary getCurrentBounds() {
-        Map<Vector2d, WorldElement> elements = getElements();
+        Map<WorldElement, Vector2d> elements = getElements();
         Vector2d lowerLeft = new Vector2d(Integer.MAX_VALUE, Integer.MAX_VALUE);
         Vector2d upperRight = new Vector2d(Integer.MIN_VALUE, Integer.MIN_VALUE);
-        for(WorldElement element : elements.values()){
-            lowerLeft = lowerLeft.lowerLeft(element.getPosition());
-            upperRight = upperRight.upperRight(element.getPosition());
+        for(Vector2d vector2d : elements.values()){
+            lowerLeft = lowerLeft.lowerLeft(vector2d);
+            upperRight = upperRight.upperRight(vector2d);
         }
         return new Boundary(lowerLeft, upperRight);
     }

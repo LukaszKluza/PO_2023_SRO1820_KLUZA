@@ -2,7 +2,10 @@ package agh.ics.oop.model;
 
 import agh.ics.oop.model.util.MapVisualizer;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.stream.Collectors;
 
 abstract class AbstractWorldMap implements WorldMap{
     private final List<MapChangeListener> observers = new ArrayList<>();
@@ -12,6 +15,17 @@ abstract class AbstractWorldMap implements WorldMap{
 
     AbstractWorldMap(int id) {
         Id = id;
+        registerObserver((worldMap, message) ->
+                System.out.println(getCurrentDateTime() + " " + message)
+        );
+        FileMapDisplay fileMapDisplay = new FileMapDisplay(id);
+        registerObserver(fileMapDisplay);
+    }
+
+    private static String getCurrentDateTime() {
+        LocalDateTime currentTime = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        return currentTime.format(formatter);
     }
 
     public abstract boolean canMoveTo(Vector2d position);
@@ -28,7 +42,8 @@ abstract class AbstractWorldMap implements WorldMap{
     }
     @Override
     public void move(Animal animal, MoveDirection direction) {
-        if(isOccupied(animal.getPosition()) && objectAt(animal.getPosition()).equals(animal)){
+        Optional<WorldElement> elementOptional = objectAt(animal.getPosition());
+        if(isOccupied(animal.getPosition()) && elementOptional.isPresent() && elementOptional.get().equals(animal)){
             Vector2d oldPosition = animal.getPosition();
             animal.move(direction,this);
             Vector2d newPosition = animal.getPosition();
@@ -39,8 +54,8 @@ abstract class AbstractWorldMap implements WorldMap{
     }
 
     @Override
-    public WorldElement objectAt(Vector2d position) {
-        return mapAnimals.get(position);
+    public Optional<WorldElement> objectAt(Vector2d position) {
+        return Optional.ofNullable(mapAnimals.get(position));
     }
     @Override
     public String toString() {
@@ -48,8 +63,9 @@ abstract class AbstractWorldMap implements WorldMap{
         return this.mapVisualizer.draw(bounds.lowerLeft(), bounds.upperRight());
     }
     @Override
-    public Map<Vector2d, WorldElement> getElements() {
-        return Collections.unmodifiableMap(mapAnimals);
+    public Map<WorldElement,Vector2d> getElements() {
+        return mapAnimals.entrySet().stream()
+                .collect(Collectors.toMap(Map.Entry::getValue, Map.Entry::getKey));
     }
 
     @Override
@@ -69,4 +85,18 @@ abstract class AbstractWorldMap implements WorldMap{
             observer.mapChanged(this, message);
         }
     }
+
+    @Override
+    public List<Animal> getOrderedAnimals() {
+        List<Animal> animalsList = new ArrayList<>(mapAnimals.values());
+
+        animalsList.sort((animal1, animal2) -> {
+            if (animal1.getPosition().getX() == animal2.getPosition().getX()) {
+                return Integer.compare(animal1.getPosition().getY(), animal2.getPosition().getY());
+            }
+            return Integer.compare(animal1.getPosition().getX(), animal2.getPosition().getX());
+        });
+        return animalsList;
+    }
+
 }

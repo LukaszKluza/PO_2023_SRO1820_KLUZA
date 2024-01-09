@@ -16,7 +16,7 @@
         <VBox>
             <HBox>
                 <TextField fx:id="textField" minWidth="810" />
-                <Button fx:id="start" onAction="#onSimulationStartClicked" text="Start"/>
+                <Button onAction="#onSimulationStartClicked" text="Start"/>
             </HBox>
             <Label fx:id="moveLabel" text="Current move: "/>
 
