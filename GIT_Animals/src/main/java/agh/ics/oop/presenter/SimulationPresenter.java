@@ -21,22 +21,20 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 
 public class SimulationPresenter implements MapChangeListener {
     private static final int CELL_SIZE = 50;
-    @FXML
-    private Label infoLabel;
+
     @FXML
     private Label moveLabel;
     @FXML
     private TextField textField;
     @FXML
     private GridPane mapGrid;
-    private WorldMap worldMap;
 
     public void setWorldMap(WorldMap worldMap) {
-        this.worldMap = worldMap;
         worldMap.registerObserver(this);
     }
     private void drawMap(WorldMap worldMap){
@@ -50,27 +48,33 @@ public class SimulationPresenter implements MapChangeListener {
         for (int i = 0; i < cols; i++) {
             for (int j = 0; j < rows; j++) {
                 Vector2d addVector = new Vector2d(i-1,-j+1);
+                Optional<WorldElement> optionalElement = worldMap.objectAt(currentPosition.add(addVector));
                 Label label = new Label();
                 if (i == 0 || j == 0) {
                     setAxis(i, j, label, currentPosition.add(addVector));
                 }
-                else if(worldMap.isOccupied(currentPosition.add(addVector))){
+                else if(optionalElement.isPresent()){
                     try{
-                        Image image = worldMap.objectAt(currentPosition.add(addVector)).toImage();
-                        ImageView imageView = new ImageView(image);
-                        imageView.setFitWidth(CELL_SIZE*0.95);
-                        imageView.setFitHeight(CELL_SIZE*0.95);
+                        WorldElement element = optionalElement.get();
+                        WorldElementBox elementBox = new WorldElementBox(element);
 
-                        label.setGraphic(imageView);
+                        elementBox.addVBox(mapGrid,i,j);
                     }
                     catch (IllegalArgumentException e){
                         label.setText(worldMap.objectAt(currentPosition.add(addVector)).toString());
+                        addLabel(label, i, j);
                     }
                 }
-                GridPane.setHalignment(label, HPos.CENTER);
-                mapGrid.add(label, i, j);
+                if(optionalElement.isEmpty()){
+                    addLabel(label, i, j);
+                }
             }
         }
+    }
+
+    private void addLabel(Label label, int i, int j) {
+        GridPane.setHalignment(label, HPos.CENTER);
+        mapGrid.add(label, i, j);
     }
 
     private static void setAxis(int i, int j, Label label, Vector2d currentPosition) {
@@ -102,18 +106,6 @@ public class SimulationPresenter implements MapChangeListener {
         //f b r l f f r r f f f f f f f f
         return OptionsParser.convertOptions(textField.getText().split("\\s+"));
     }
-
-//    @FXML
-//    public void onSimulationStartClicked(){
-//        List<Vector2d> positions = List.of(new Vector2d(2,2), new Vector2d(3,4));
-//        WorldMap map = new GrassField(10,1);
-//        this.setWorldMap(map);
-//        map.registerObserver(this);
-//        Simulation simulation = new Simulation(positions,getOptions(),map);
-//        List<Simulation> simulations = List.of(simulation);
-//        SimulationEngine simulationEngine = new SimulationEngine(simulations);
-//        simulationEngine.runAsync();
-//    }
 
     private static int simulationID = 0;
     @FXML

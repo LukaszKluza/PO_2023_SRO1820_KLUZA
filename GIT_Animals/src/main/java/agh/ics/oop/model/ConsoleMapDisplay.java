@@ -7,7 +7,6 @@ public class ConsoleMapDisplay implements  MapChangeListener{
     public void mapChanged(WorldMap worldMap, String message) {
         synchronized (this) {
             totalUpdates++;
-            System.out.println(Thread.currentThread());
             System.out.println("Map ID: " + worldMap.getId());
             System.out.println("Map operation: " + message);
             System.out.println(worldMap);

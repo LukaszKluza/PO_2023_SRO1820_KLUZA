@@ -33,7 +33,7 @@ public class World {
             List<MoveDirection> directions = OptionsParser.convertOptions(args);
             List<Vector2d> positions = List.of(new Vector2d(2,2), new Vector2d(3,4));
             ConsoleMapDisplay consoleMapDisplay = new ConsoleMapDisplay();
-            for(int i =0; i<1000; ++i){
+            for(int i =0; i<10; ++i){
                 WorldMap map = new GrassField(10,i);
                 simulations.add(new Simulation(positions,directions,map));
                 map.registerObserver(consoleMapDisplay);

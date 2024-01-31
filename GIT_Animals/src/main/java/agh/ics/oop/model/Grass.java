@@ -20,7 +20,12 @@ public class Grass implements WorldElement{
     }
 
     @Override
+    public String title() {
+        return "Grass";
+    }
+
+    @Override
     public Image toImage() {
-        return new Image("C:\\Users\\Lenovo\\Desktop\\PO\\PO_2023_SRO1820_KLUZA\\GIT_Animals\\images\\grass.png");
+        return new Image("grass.png");
     }
 }

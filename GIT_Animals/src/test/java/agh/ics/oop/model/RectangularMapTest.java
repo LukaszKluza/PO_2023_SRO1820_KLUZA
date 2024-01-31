@@ -34,7 +34,7 @@ class RectangularMapTest {
             e.printStackTrace();
         }
 
-        assertEquals(animal1,map.objectAt(new Vector2d(2,3)));
+        assertEquals(animal1,map.objectAt(new Vector2d(2,3)).get());
     }
 
     @Test
@@ -63,10 +63,10 @@ class RectangularMapTest {
         map.move(animal3, MoveDirection.RIGHT);
         map.move(animal3, MoveDirection.FORWARD);
 
-        assertEquals(animal1,map.objectAt(new Vector2d(2,4)));
-        assertEquals(animal2,map.objectAt(new Vector2d(3,1)));
-        assertEquals(animal3,map.objectAt(new Vector2d(1,0)));
-        assertEquals(animal4,map.objectAt(new Vector2d(4,0)));
+        assertEquals(animal1,map.objectAt(new Vector2d(2,4)).get());
+        assertEquals(animal2,map.objectAt(new Vector2d(3,1)).get());
+        assertEquals(animal3,map.objectAt(new Vector2d(1,0)).get());
+        assertEquals(animal4,map.objectAt(new Vector2d(4,0)).get());
     }
 
     @Test

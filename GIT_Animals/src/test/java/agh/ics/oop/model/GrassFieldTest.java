@@ -35,7 +35,7 @@ class GrassFieldTest {
             e.printStackTrace();
         }
 
-        assertEquals(animal1,map.objectAt(new Vector2d(2,3)));
+        assertEquals(animal1,map.objectAt(new Vector2d(2,3)).get());
     }
     @Test
     void move() {
@@ -66,10 +66,10 @@ class GrassFieldTest {
         map.move(animal4, MoveDirection.BACKWARD);
 
 
-        assertEquals(animal1,map.objectAt(new Vector2d(2,5)));
-        assertEquals(animal2,map.objectAt(new Vector2d(3,1)));
-        assertEquals(animal3,map.objectAt(new Vector2d(-1,0)));
-        assertEquals(animal4,map.objectAt(new Vector2d(4,-1)));
+        assertEquals(animal1,map.objectAt(new Vector2d(2,5)).get());
+        assertEquals(animal2,map.objectAt(new Vector2d(3,1)).get());
+        assertEquals(animal3,map.objectAt(new Vector2d(-1,0)).get());
+        assertEquals(animal4,map.objectAt(new Vector2d(4,-1)).get());
     }
 
     @Test
